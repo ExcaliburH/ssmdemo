@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间 必须与接口的类路径相同-->
+<mapper namespace="com.penghai.mapper.XuuserMapper">
+    <!--Mapper接口开发需要遵循以下规范：
+1、Mapper.xml文件中的namespace与mapper接口的类路径相同。
+2、Mapper接口方法名和Mapper.xml中定义的每个statement的id相同
+3、Mapper接口方法的输入参数类型和mapper.xml中定义的每个sql 的parameterType的类型相同
+4、Mapper接口方法的输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同-->
+  <!--Mapper接口中的方法名必须与id相同-->
+    <!-- parameterType:声明输入参数的类型 -->
+    <!-- resultType:声明输出结果的类型，应该填写pojo的全路径 -->
+    <!-- #{}：输入参数的占位符，相当于jdbc的？ -->
+    <!--注册用户-->
+    <insert id="userRegist" parameterType="xuuser">
+       insert into tb_user (username,password,sex,phonenum,rtime,ctime) values(#{username},#{password},#{sex},#{phonenum},#{rtime},#{ctime})
+    </insert>
+    <!--登录 -->
+    <select id="selectByN" resultType="int" parameterType="xuuser">
+select count(*) from  tb_user where username=#{username} and password=#{password}
+</select>
+    <!--登录成功查询所有-->
+    <select id="selectAll" resultType="xuuser">
+   select * from tb_user
+</select>
+    <!--修改前查询用户信息-->
+    <select id="selectUser" parameterType="int" resultType="xuuser" >
+        select * from tb_user where id=#{id}
+    </select>
+    <!--更新信息 -->
+    <update id="updateUser" parameterType="xuuser" >
+      update tb_user set sex=#{sex},phonenum=#{phonenum},ctime=#{ctime} where id=#{id}
+    </update>
+    <!--重置密码-->
+    <update id="updatePd" parameterType="xuuser">
+        update tb_user set  password=#{password} where id=#{id}
+    </update>
+    <!--删 -->
+    <delete id="deleteUser" parameterType="int">
+     delete from tb_user where id=#{id}
+</delete>
+   <!--校验-->
+    <select id="checkName" parameterType="String" resultType="int">
+    select count(username) from tb_user where username=#{username}
+</select>
+    <select id="checkPhone" parameterType="String" resultType="int">
+        select  count(phonenum) from tb_user where  phonenum=#{phonenum}
+    </select>
+
+
+</mapper>
+
